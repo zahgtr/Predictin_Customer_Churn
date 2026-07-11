@@ -1,18 +1,3 @@
-"""
-app.py — Streamlit deployment demo (Telco Customer Churn)
-===============================================================================
-Loads the trained pipeline (best_model.joblib) and predicts whether a customer
-will churn, with the churn probability.
-
-Run locally:
-    pip install streamlit scikit-learn pandas joblib
-    streamlit run app.py
-
-Deploy free:
-    Push this folder to GitHub, then visit https://share.streamlit.io,
-    connect the repo and set app.py as the entry point.
-===============================================================================
-"""
 import os
 import joblib
 import numpy as np
@@ -26,8 +11,8 @@ SERVICE_COLS = ["OnlineSecurity", "OnlineBackup", "DeviceProtection",
 
 @st.cache_resource
 def load():
-    return (joblib.load(os.path.join(HERE, "best_model.joblib")),
-            joblib.load(os.path.join(HERE, "model_meta.joblib")))
+    return (joblib.load("best_model.joblib"),
+            joblib.load("model_meta.joblib"))
 
 
 def make_features(d):
@@ -45,7 +30,7 @@ def make_features(d):
 
 def main():
     st.set_page_config(page_title="Telco Churn Predictor", page_icon="📞")
-    st.title("📞 Telco Customer Churn Predictor")
+    st.title("Customer Churn Predictor")
     st.write("Estimate whether a customer is likely to **churn**, based on their "
              "account profile and subscribed services.")
 
