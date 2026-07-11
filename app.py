@@ -4,8 +4,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-SERVICE_COLS = ["OnlineSecurity", "OnlineBackup", "DeviceProtection",
+add_on_services_col = ["OnlineSecurity", "OnlineBackup", "DeviceProtection",
                 "TechSupport", "StreamingTV", "StreamingMovies"]
 
 
@@ -20,7 +19,7 @@ def make_features(d):
     df = pd.DataFrame([d])
     df["tenure_group"] = pd.cut(df["tenure"], bins=[-1, 12, 24, 48, 60, 72],
                                 labels=["0-1yr", "1-2yr", "2-4yr", "4-5yr", "5-6yr"])
-    df["num_services"] = sum((df[c] == "Yes").astype(int) for c in SERVICE_COLS)
+    df["num_services"] = sum((df[c] == "Yes").astype(int) for c in add_on_services_col)
     df["avg_charges_per_tenure"] = df["TotalCharges"] / df["tenure"].clip(lower=1)
     df["is_month_to_month"] = (df["Contract"] == "Month-to-month").astype(int)
     df["no_protection"] = ((df["OnlineSecurity"] != "Yes") &
@@ -61,10 +60,10 @@ def main():
     sc = st.columns(3)
     services = {}
     opts = ["No", "Yes", "No internet service"]
-    for i, svc in enumerate(SERVICE_COLS):
+    for i, svc in enumerate(add_on_services_col):
         services[svc] = sc[i % 3].selectbox(svc, opts)
 
-    if st.button("Predict Churn", type="primary"):
+    if st.button("Predict Churn", type="secondary"):
         row = {
             "gender": gender, "SeniorCitizen": senior, "Partner": partner,
             "Dependents": dependents, "tenure": tenure, "PhoneService": phone,
