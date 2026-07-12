@@ -62,7 +62,7 @@ def main():
     for i, svc in enumerate(add_on_services_col):
         services[svc] = sc[i % 3].selectbox(svc, opts)
 
-    if st.button("Predict Churn", type="secondary"):
+    if st.button("Predict Churn", type="primary"):
         row = {
             "gender": gender, "SeniorCitizen": senior, "Partner": partner,
             "Dependents": dependents, "tenure": tenure, "PhoneService": phone,
